@@ -21,6 +21,8 @@
 			return $(this).trigger('gMap.clearMarkers');
 		case 'addCustomControl':
 			return $(this).trigger('gMap.addCustomControl', [methods_options.position, methods_options.el]);
+		case 'fitBounds':
+			return $(this).trigger('gMap.fitBounds', [methods_options]);
 		}
 
 		// Build main options before element iteration
@@ -201,6 +203,11 @@
 			$(this).bind('gMap.addCustomControl', function(e, controlPosition, controlEl)
 			{
 				$gmap.controls[controlPosition].push(controlEl);
+			});
+
+			$(this).bind('gMap.fitBounds', function(e, bounds)
+			{
+				$gmap.fitBounds(bounds);
 			});
 
 			// Loop through marker array
