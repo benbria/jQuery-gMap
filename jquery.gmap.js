@@ -14,7 +14,7 @@
 		switch(options)
 		{
 		case 'addMarker':
-			return $(this).trigger('gMap.addMarker', [methods_options.latitude, methods_options.longitude, methods_options.content, methods_options.icon, methods_options.popup]);
+			return $(this).trigger('gMap.addMarker', [methods_options.latitude, methods_options.longitude, methods_options.content, methods_options.icon, methods_options.popup, methods_options.events]);
 		case 'centerAt':
 			return $(this).trigger('gMap.centerAt', [methods_options.latitude, methods_options.longitude, methods_options.zoom]);
 		case 'clearMarkers':
@@ -135,7 +135,7 @@
 			});
 
 			var last_infowindow;
-			$(this).bind('gMap.addMarker', function(e, latitude, longitude, content, icon, popup)
+			$(this).bind('gMap.addMarker', function(e, latitude, longitude, content, icon, popup, events)
 			{
 				var glatlng = new google.maps.LatLng(parseFloat(latitude), parseFloat(longitude));
 
@@ -186,6 +186,14 @@
 						});
 					}
 				}
+
+				if(events)
+				{
+					Object.keys(events).forEach(function(key) {
+						google.maps.event.addListener(gmarker, key, events[key]);
+					});
+				}
+
 				gmarker.setMap($gmap);
 				overlays.push(gmarker);
 			});
